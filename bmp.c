@@ -1,6 +1,5 @@
 #include <avr/io.h>      // this contains all the IO port definitions
 #include <avr/interrupt.h>
-#include <avr/signal.h>
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 
@@ -51,7 +50,7 @@ B8(00000000),
 };
 
 // special pointer for reading from ROM memory
-PGM_P bmpimage_p PROGMEM = bmp_image;
+PGM_P const bmpimage_p PROGMEM = bmp_image;
 
 #define NUM_ELEM(x) (sizeof (x) / sizeof (*(x)))
 int imagesize = NUM_ELEM(bmp_image);
@@ -60,7 +59,7 @@ int imagesize = NUM_ELEM(bmp_image);
 
 // this function is called when timer1 compare matches OCR1A
 uint8_t j = 0;
-SIGNAL( SIG_TIMER1_COMPA ) {
+SIGNAL( TIMER1_COMPA_vect ) {
   if (j >= imagesize)
     j = 0;
 
